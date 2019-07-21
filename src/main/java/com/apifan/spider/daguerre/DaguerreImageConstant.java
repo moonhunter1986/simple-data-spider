@@ -50,9 +50,4 @@ public final class DaguerreImageConstant {
      * 标题中可能存在的无用关键词
      */
     public static final String[] keywordsToRemove = new String[]{"草榴社區", "-t66y.com", "-達蓋爾的旗幟"};
-
-    /**
-     * 基于chevereto搭建的网站URL前缀
-     */
-    public static final List<String> cheveretoBasedWebsiteUrls = Lists.newArrayList("https://www.simipic.com/image/", "https://www.kanjiantu.com/image/", "https://www.privacypic.com/image/", "https://www.s6tu.com/image/", "http://pic303.com/");
 }

@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashSet;
@@ -78,6 +79,8 @@ public class DaguerreImageSpider {
      */
     private File indexFile;
 
+    List<String> cheveretoBasedWebsiteUrls = Lists.newArrayList();
+
     /**
      * 构造函数(使用代理)
      *
@@ -96,6 +99,15 @@ public class DaguerreImageSpider {
             this.httpProxy = new HttpProxyConfig(proxyHost, proxyPort, proxyUsername, proxyPassword);
         }
         this.date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String cheveretoUrlsFile = this.getClass().getResource("/chevereto_urls.txt").getFile();
+        try {
+            List<String> urls = FileUtils.readLines(new File(cheveretoUrlsFile), StandardCharsets.UTF_8);
+            if(CollectionUtils.isNotEmpty(urls)){
+                cheveretoBasedWebsiteUrls.addAll(urls);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         logger.info("初始化完成。文件输出路径: {}", this.basePath);
         if (this.useProxy) {
             logger.info("使用以下HTTP代理: {}:{}", proxyHost, proxyPort);
@@ -381,7 +393,7 @@ public class DaguerreImageSpider {
         if (StringUtils.isEmpty(url)) {
             return false;
         }
-        for (String prefix : DaguerreImageConstant.cheveretoBasedWebsiteUrls) {
+        for (String prefix : cheveretoBasedWebsiteUrls) {
             if (url.toLowerCase().startsWith(prefix)) {
                 return true;
             }
