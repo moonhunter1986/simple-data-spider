@@ -24,6 +24,9 @@ public class JsoupUtils {
      * @return 文档对象
      */
     public static Document getDocument(File htmlFile, String charset) {
+        if (htmlFile == null || !htmlFile.exists() || !htmlFile.isFile()) {
+            return null;
+        }
         try {
             return Jsoup.parse(htmlFile, StringUtils.isEmpty(charset) ? Charsets.UTF_8.name() : charset);
         } catch (IOException e) {
